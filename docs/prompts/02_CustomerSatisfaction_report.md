@@ -1,3 +1,14 @@
+## Prompts
+```
+내용 링크의 종합 만족도 지표를 분석해서, 참고 링크의 형식을 참고해서 동일 형식으로 '2025년 AI 솔루션 고객 만족도 통계 분석 보고서'를 작성해줘.
+
+[내용 링크]
+https://docs.google.com/spreadsheets/d/1KZlqe6HvfufWMOejrlQbxfvGMaH_25KUrYMoUsJZQxQ/edit?gid=0#gid=0
+
+[참고 링크]
+https://docs.google.com/document/d/1on7wPVy4bso6Bx0i9DPSR-M3DllvXaR-6eKrtco18lc/edit?tab=t.0#heading=h.f5qqrae73oaa
+```
+---
 ## 2025년 AI 솔루션 고객 만족도 통계 분석 보고서
 
 ### 1. 개요
