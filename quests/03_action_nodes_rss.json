@@ -36,7 +36,7 @@
     },
     {
       "parameters": {
-        "maxItems": 2,
+        "maxItems": 3,
         "keep": "lastItems"
       },
       "type": "n8n-nodes-base.limit",
@@ -69,6 +69,56 @@
           "name": "Telegram account 2"
         }
       }
+    },
+    {
+      "parameters": {
+        "url": "https://news-ex.jtbc.co.kr/v1/get/rss/newsflesh",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        112,
+        96
+      ],
+      "id": "80a3fdc2-7998-4438-957c-169139996b09",
+      "name": "RSS Read1"
+    },
+    {
+      "parameters": {
+        "maxItems": 3,
+        "keep": "lastItems"
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        336,
+        96
+      ],
+      "id": "db5fa3c0-b50b-4b2b-b8b7-8074d66b7286",
+      "name": "Limit1"
+    },
+    {
+      "parameters": {
+        "chatId": "7970091848",
+        "text": "=n8n 에서 보냅니다.\n제목 : {{ $json.title }}\n발행일 : {{ $json.pubDate }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        528,
+        96
+      ],
+      "id": "c66d28e5-10a2-48dc-b894-42d8b190f6b8",
+      "name": "Send a text message",
+      "webhookId": "6c2deedb-c92c-4e04-9633-776e0b6c9a1d",
+      "credentials": {
+        "telegramApi": {
+          "id": "6c4RHZlhagBIxAkE",
+          "name": "Telegram account 2"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -78,6 +128,11 @@
         [
           {
             "node": "RSS Read",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "RSS Read1",
             "type": "main",
             "index": 0
           }
@@ -105,13 +160,35 @@
           }
         ]
       ]
+    },
+    "RSS Read1": {
+      "main": [
+        [
+          {
+            "node": "Limit1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit1": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "05de336a-67d6-4033-8f3b-337c9f882287",
+  "versionId": "2ef5570a-6645-4402-8ba1-a0e60467bcc9",
   "meta": {
     "instanceId": "6a4f611215d1c6ec34bfdb84fef768c16095a3f8125e0bd767571715f1d71727"
   },
