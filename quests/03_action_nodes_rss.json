@@ -1,0 +1,120 @@
+{
+  "name": "03_action_nodes_rss",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -80,
+        -80
+      ],
+      "id": "bf62ba5c-244d-43bc-bddf-a0645a521a76",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "https://www.yna.co.kr/rss/industry.xml",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        128,
+        -80
+      ],
+      "id": "754630ce-9b42-43b9-a7b8-40b9af85fb22",
+      "name": "RSS Read"
+    },
+    {
+      "parameters": {
+        "maxItems": 2,
+        "keep": "lastItems"
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        320,
+        -80
+      ],
+      "id": "eaedf7e9-c011-45fe-b01f-8810d1379c3b",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
+        "chatId": "7970091848",
+        "text": "=n8n 에서 보냅니다.\n제목 : {{ $json.title }}\n발행일 : {{ $json.pubDate }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        512,
+        -80
+      ],
+      "id": "92385658-d6e7-48bd-8235-0b1b70311ad7",
+      "name": "Send a text message1",
+      "webhookId": "6c2deedb-c92c-4e04-9633-776e0b6c9a1d",
+      "credentials": {
+        "telegramApi": {
+          "id": "6c4RHZlhagBIxAkE",
+          "name": "Telegram account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "RSS Read",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS Read": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Send a text message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "05de336a-67d6-4033-8f3b-337c9f882287",
+  "meta": {
+    "instanceId": "6a4f611215d1c6ec34bfdb84fef768c16095a3f8125e0bd767571715f1d71727"
+  },
+  "id": "uEimr6Co1P1vkcbL",
+  "tags": []
+}
