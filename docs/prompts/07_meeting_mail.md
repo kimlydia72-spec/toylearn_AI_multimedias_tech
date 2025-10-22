@@ -211,7 +211,6 @@ https://docs.google.com/document/d/1KLU4oAAprirq1TxqV0p-rOtNxQEIuWCn5Mcd8sbXr8Y/
 
 # Output2
 
-```markdown
 # 📧 ‘스파클링 아이스티’ 론칭 캠페인 회의록 및 최종 견적·일정 안내 메일
 
 ---
@@ -316,6 +315,6 @@ https://docs.google.com/document/d/1KLU4oAAprirq1TxqV0p-rOtNxQEIuWCn5Mcd8sbXr8Y/
 감사합니다.  
 **Lydia / 유어미디어 회의 진행 담당자**  
 📧 contact@yourmedia.com | ☎ 02-123-4567
-```
+
 ---
 
