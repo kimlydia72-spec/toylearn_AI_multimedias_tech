@@ -1,11 +1,13 @@
 # Prompts
 
+```
 당신은 유어미디어의 담당자 Lydia입니다. 
 [회의록], [가격 정책 안내], [이메일 내용]의 내용을 참고하여 아래 [최종 고객 제안서]의 형식에 맞추어 내용을 작성해주세요.
 
 - 출처 및 별도의 문구 없이 내용만 출력, 
 - 반드시 Markdown 형식으로 출력해주세요.
-- 담당자는 Lydia Kim, 이메일은 kimlydia72@gmail.com, 연락처는 010-6233-4510 입니다.
+- 담당자는 Lydia Kim, 이메일은 kimlydia72@gmail.com, 
+  연락처는 010-6233-4510 입니다.
 
 [회의록]
 - 회의록 링크
@@ -90,7 +92,7 @@ https://docs.google.com/document/d/1KLU4oAAprirq1TxqV0p-rOtNxQEIuWCn5Mcd8sbXr8Y/
 | 구분 | 담당자 | 연락처 | 이메일 |
 |------|----------|----------|----------|
 | 제안 담당 |  |  |  |
-
+```
 ---
 
 # Output1
