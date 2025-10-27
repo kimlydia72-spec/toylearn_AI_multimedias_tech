@@ -1,0 +1,448 @@
+{
+  "name": "09_Storage_GoogleDrives_meeting_note",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "예비 이력서",
+        "formDescription": "필요 정보 입력",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "email",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "attendees",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "meeting notes",
+              "fieldType": "textarea"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.3,
+      "position": [
+        -736,
+        -160
+      ],
+      "id": "30343936-17d2-4b50-9283-858f431c8951",
+      "name": "On form submission",
+      "webhookId": "d7045c40-7af8-4ed5-b2eb-01052fcb88c2"
+    },
+    {
+      "parameters": {
+        "operation": "copy",
+        "fileId": {
+          "__rl": true,
+          "value": "1yNYc-oPxlHRBQeHf7JOTeqQghCJqj6-PXTAiAPieS0s",
+          "mode": "list",
+          "cachedResultName": "회의록",
+          "cachedResultUrl": "https://docs.google.com/document/d/1yNYc-oPxlHRBQeHf7JOTeqQghCJqj6-PXTAiAPieS0s/edit?usp=drivesdk"
+        },
+        "name": "=회의록-{{ $('On form submission').item.json.submittedAt }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -320,
+        -160
+      ],
+      "id": "6b57c9fa-6a76-447c-b6d8-ee4ef2c44083",
+      "name": "Copy file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "l6yVejQ4FQd4MrF1",
+          "name": "Google Drive account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $('Copy file').item.json.id }}",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "replaceAll",
+              "text": "=[email]",
+              "replaceText": "={{ $('On form submission').item.json.email }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "[attendees]",
+              "replaceText": "={{ $('On form submission').item.json.attendees }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "[meeting notes]",
+              "replaceText": "={{ $json.content.parts[0].text }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        288,
+        -160
+      ],
+      "id": "3bdf790e-7c13-4ed4-93a7-c87a42a7f84f",
+      "name": "Update a document",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "Myb5KcKW1pLO2sZz",
+          "name": "Google Docs account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f70c75c9-d058-4d3c-8c87-836d543a4355",
+              "leftValue": "={{ $json['meeting notes'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -528,
+        -160
+      ],
+      "id": "480cec35-2d91-4fde-b773-988ea03d38fc",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $('Copy file').item.json.id }}",
+          "mode": "id"
+        },
+        "options": {
+          "googleFileConversion": {
+            "conversion": {
+              "docsToFormat": "application/pdf"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        496,
+        -160
+      ],
+      "id": "e019a9ab-fe91-4b7d-abe3-39e1d210a5cc",
+      "name": "Download file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "l6yVejQ4FQd4MrF1",
+          "name": "Google Drive account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.email }}",
+        "subject": "공지] 회의록 누락",
+        "message": "회의록 노트 내용 누락",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -80,
+        128
+      ],
+      "id": "ba393fb0-bb5c-4085-9485-3a783a38d479",
+      "name": "Send a message",
+      "webhookId": "0371ff74-a199-4210-b376-36852ee3b9cb",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "bO7VsMvzX0Q43zkL",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "={{ $('Copy file').item.json.name }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1YxU2uKk6zSL53foHhZmkVrYjrM_jtmnX",
+          "mode": "list",
+          "cachedResultName": "n8ns",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1YxU2uKk6zSL53foHhZmkVrYjrM_jtmnX"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        704,
+        -160
+      ],
+      "id": "b0ae2830-f459-4753-8d34-542f473293ee",
+      "name": "Upload file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "l6yVejQ4FQd4MrF1",
+          "name": "Google Drive account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1E7waXGCXjM_x0mtcJHax6C-dtWBCF8wr-mSrBM_STjw/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "시트1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1E7waXGCXjM_x0mtcJHax6C-dtWBCF8wr-mSrBM_STjw/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "PDF 링크": "={{ $json.webViewLink }}",
+            "날짜(입력날짜)": "={{ $json.createdTime }}",
+            "회의 주제": "={{ $('Message a model').item.json.content.parts[0].text }}",
+            "주관자": "={{ $('If').item.json.email }}",
+            "참여인원": "={{ $('On form submission').item.json.attendees }}"
+          },
+          "matchingColumns": [
+            "주관자"
+          ],
+          "schema": [
+            {
+              "id": "주관자",
+              "displayName": "주관자",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "참여인원",
+              "displayName": "참여인원",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "회의 주제",
+              "displayName": "회의 주제",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "날짜(입력날짜)",
+              "displayName": "날짜(입력날짜)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "PDF 링크",
+              "displayName": "PDF 링크",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        912,
+        -160
+      ],
+      "id": "6a9c6c96-06d5-4e0a-9eb4-cdb6292de582",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "biYZ3ZFD3WY7rWTG",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=당신은 유어미디어의 회의 진행 담당자 입니다. \n아래 회의록 양식에 맞추어 회의 녹취록의 주제를 한 줄로 정리해주세요.\n\n- 출처 및 별도의 문구 없이 내용만 출력\n\n[회의 녹취록]\n {{ $('If').item.json['meeting notes'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        -80,
+        -160
+      ],
+      "id": "7bfc80b2-57b9-4b02-a1c4-1799ffa9feba",
+      "name": "Message a model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "l4TOHr02NYYlpTIE",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Copy file": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a document": {
+      "main": [
+        [
+          {
+            "node": "Download file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Copy file",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file": {
+      "main": [
+        [
+          {
+            "node": "Upload file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload file": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Update a document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "9ea862b1-48bf-411d-9a96-5a27e674e26e",
+  "meta": {
+    "instanceId": "2974596cddf1730c0fb800c257beed27d2c6a628e41f02b2cac3949164183bdf"
+  },
+  "id": "603y7YoVa9wKmZMV",
+  "tags": []
+}
