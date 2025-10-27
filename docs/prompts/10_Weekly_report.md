@@ -14,17 +14,6 @@
 
 # Output1
 
-물론입니다. 우선 [프로젝트 현황 데이터]를 분석해야 하기 때문에, 그 데이터를 업로드해 주시면 됩니다.
-엑셀(xlsx), CSV, 또는 PDF 형태 모두 가능합니다.
-
-업로드해 주시면 제가 다음과 같은 구조의 **경영진용 Weekly 보고서(md 파일 형식)**을 완성해드리겠습니다:
-
----
-
-# Output2 - 값을 바로 넣음
-
-- 링크 전달 : https://docs.google.com/document/d/1FtogsW1H6bCp4VdxHVtezNMS4DDpNDEUzhYZ-JrNuEg/edit?usp=sharing
-
 ### 📄 **Weekly 프로젝트 보고서 (예시 목차)**
 
 #### 1. Executive Summary
@@ -52,6 +41,10 @@
 
 
 ---
+
+# Output2 - 값을 바로 넣음
+
+- 링크 전달 : https://docs.google.com/document/d/1FtogsW1H6bCp4VdxHVtezNMS4DDpNDEUzhYZ-JrNuEg/edit?usp=sharing
 
 # 📊 주간 프로젝트 통합 보고서 (Weekly Executive Report)
 
