@@ -57,8 +57,6 @@ https://drive.google.com/drive/folders/1ALKWidvkuEP3PfuF31Mi-787phwZ4K0u
 2.  **중간관리자 리더십:** 팀 단위 성과 창출을 위한 코칭 및 성과관리 역량 개발이 필수적입니다.
 3.  **직무별 심화 역량:** 직무별 필수역량 매트릭스에 기반한 고도화된 전문 스킬셋 확보가 필요합니다.
 
-![이미지: 역량 갭 분석 결과 시각화 차트](https://i.imgur.com/example.png)
-
 ---
 
 ## 3. 교육 체계 및 로드맵
